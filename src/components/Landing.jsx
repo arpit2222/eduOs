@@ -12,77 +12,90 @@ const SUBJECTS = [
   'English'
 ];
 
-export default function Landing({ selectedClass, selectedSubject, onSelectClass, onSelectSubject, onContinue, loading, error }) {
+export default function Landing({
+  selectedClass,
+  selectedSubject,
+  onSelectClass,
+  onSelectSubject,
+  onContinue,
+  onBack,
+  loading,
+  error
+}) {
   return (
-    <section className="screen max-w-7xl mx-auto min-h-[calc(100vh-4rem)] flex flex-col justify-center gap-8">
-      <div className="text-center">
-        <p className="mono text-sm text-secondary tracking-wider uppercase">EduOS Protocol</p>
-        <h1 className="display-font text-6xl md:text-7xl font-bold mt-2">Learn. Quiz. Earn.</h1>
-        <p className="text-muted mt-4 max-w-2xl mx-auto text-lg">
-          Pick your class and subject, generate an AI study pack, pass the quiz, and claim onchain rewards.
-        </p>
-      </div>
-
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="edu-card p-6">
-          <h2 className="display-font text-xl font-bold mb-4">Select Class</h2>
-          <div className="grid grid-cols-4 gap-3">
-            {CLASSES.map((classNo) => {
-              const active = selectedClass === classNo;
-              return (
-                <button
-                  key={classNo}
-                  type="button"
-                  onClick={() => onSelectClass(classNo)}
-                  className={`rounded-xl py-4 font-bold text-lg border transition ${
-                    active
-                      ? 'border-primary bg-primary/10 shadow-glow'
-                      : 'border-border bg-black/20 hover:border-secondary'
-                  }`}
-                >
-                  {classNo}
-                </button>
-              );
-            })}
+    <section className="screen max-w-4xl mx-auto min-h-[calc(100vh-4rem)] flex items-center justify-center">
+      <div className="edu-card p-8 md:p-10 w-full hero-panel">
+        <div className="flex items-start justify-between gap-4 flex-wrap">
+          <div>
+            <p className="mono text-xs text-primary uppercase tracking-[0.24em]">Step 2</p>
+            <h1 className="display-font text-5xl md:text-6xl font-bold mt-2">Choose the student lane</h1>
+            <p className="text-muted mt-4 max-w-2xl leading-7">
+              Select the class and subject you want to activate. EduOS will read the curriculum, break it into topics,
+              generate detailed study material on demand, and activate the assessment and credential flow from there.
+            </p>
+          </div>
+          <div className="token-pills">
+            <span className="token-pill token-pill-primary">$LEARN</span>
+            <span className="token-pill token-pill-secondary">Onchain profile</span>
           </div>
         </div>
 
-        <div className="edu-card p-6">
-          <h2 className="display-font text-xl font-bold mb-4">Select Subject</h2>
-          <div className="grid grid-cols-2 gap-3 max-h-[320px] overflow-y-auto pr-1">
-            {SUBJECTS.map((subject) => {
-              const active = selectedSubject === subject;
-              return (
-                <button
-                  key={subject}
-                  type="button"
-                  onClick={() => onSelectSubject(subject)}
-                  className={`rounded-xl py-3 px-3 text-sm font-semibold border text-left transition ${
-                    active
-                      ? 'border-secondary bg-secondary/10 shadow-pulse'
-                      : 'border-border bg-black/20 hover:border-primary'
-                  }`}
-                >
-                  {subject}
-                </button>
-              );
-            })}
+        <div className="grid md:grid-cols-2 gap-6 mt-8">
+          <div className="edu-card p-6 bg-black/20">
+            <h2 className="display-font text-xl font-bold mb-4">Select Class</h2>
+            <div className="grid grid-cols-4 gap-3">
+              {CLASSES.map((classNo) => {
+                const active = selectedClass === classNo;
+                return (
+                  <button
+                    key={classNo}
+                    type="button"
+                    onClick={() => onSelectClass(classNo)}
+                    className={`selector-card ${active ? 'selector-card-active' : ''}`}
+                  >
+                    {classNo}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="edu-card p-6 bg-black/20">
+            <h2 className="display-font text-xl font-bold mb-4">Select Subject</h2>
+            <div className="grid grid-cols-2 gap-3 max-h-[320px] overflow-y-auto pr-1">
+              {SUBJECTS.map((subject) => {
+                const active = selectedSubject === subject;
+                return (
+                  <button
+                    key={subject}
+                    type="button"
+                    onClick={() => onSelectSubject(subject)}
+                    className={`selector-card selector-card-subject ${active ? 'selector-card-active selector-card-secondary' : ''}`}
+                  >
+                    {subject}
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
-      </div>
 
-      {error ? <p className="text-red-400 text-center">{error}</p> : null}
+        {error ? <p className="text-red-400 mt-5 text-sm">{error}</p> : null}
 
-      <div className="flex justify-center">
-        <button
-          type="button"
-          onClick={onContinue}
-          disabled={!selectedClass || !selectedSubject || loading}
-          className="glow-button px-10 py-4 rounded-2xl font-bold text-lg inline-flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {loading ? <span className="loader" /> : null}
-          {loading ? 'Checking curriculum...' : 'Start Learning'}
-        </button>
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
+          <button
+            type="button"
+            onClick={onContinue}
+            disabled={!selectedClass || !selectedSubject || loading}
+            className="glow-button px-10 py-4 rounded-2xl font-bold text-lg inline-flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {loading ? <span className="loader" /> : null}
+            {loading ? 'Checking curriculum...' : 'Start Learning'}
+          </button>
+          <button type="button" onClick={onBack} className="text-sm text-muted hover:text-text">
+            Read the vision again
+          </button>
+        </div>
       </div>
     </section>
   );

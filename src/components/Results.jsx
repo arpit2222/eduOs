@@ -16,7 +16,7 @@ function Confetti() {
   );
 }
 
-import FourMemeLaunchKit from './FourMemeLaunchKit';
+import CredentialPanel from './CredentialPanel';
 
 export default function Results({ score, total, passed, onRetry, onClaim, aiProviderLabel }) {
   return (
@@ -31,7 +31,7 @@ export default function Results({ score, total, passed, onRetry, onClaim, aiProv
 
         <p className="text-lg text-muted mt-4">
           {passed
-            ? 'Outstanding. You passed the quiz and unlocked your meme reward.'
+            ? 'You passed the assessment and unlocked your learning reward.'
             : 'You are close. Review the material and run it back stronger.'}
         </p>
 
@@ -50,7 +50,7 @@ export default function Results({ score, total, passed, onRetry, onClaim, aiProv
 
       {passed ? (
         <div className="mt-6">
-          <FourMemeLaunchKit projectName="EduOS" />
+          <CredentialPanel />
         </div>
       ) : null}
     </section>

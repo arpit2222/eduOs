@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import Vision from './components/Vision';
 import Landing from './components/Landing';
 import Upload from './components/Upload';
 import TopicReview from './components/TopicReview';
@@ -37,7 +38,7 @@ function serializeStudyMaterialPages(pages) {
 
 export default function App() {
   const providerSummary = getAiProviderSummary();
-  const [screen, setScreen] = useState('landing');
+  const [screen, setScreen] = useState('vision');
   const [selectedClass, setSelectedClass] = useState('');
   const [selectedSubject, setSelectedSubject] = useState('');
   const [curriculumText, setCurriculumText] = useState('');
@@ -224,11 +225,16 @@ export default function App() {
       setScreen('study');
     } catch (err) {
       setError(err.message || 'Failed to prepare study pages.');
-      setScreen('review');
+        setScreen('review');
       throw err;
     } finally {
       setGenerating(false);
     }
+  };
+
+  const handleEnterPlatform = () => {
+    setError('');
+    setScreen('landing');
   };
 
   const handleTakeQuiz = async () => {
@@ -280,7 +286,7 @@ export default function App() {
         type="button"
         onClick={() => {
           clearCurriculumCache();
-          setScreen('landing');
+          setScreen('vision');
           setSelectedClass('');
           setSelectedSubject('');
           setCurriculumText('');
@@ -300,6 +306,8 @@ export default function App() {
         Clear Local Cache
       </button>
 
+      {screen === 'vision' ? <Vision onContinue={handleEnterPlatform} /> : null}
+
       {screen === 'landing' ? (
         <Landing
           selectedClass={selectedClass}
@@ -307,6 +315,7 @@ export default function App() {
           onSelectClass={setSelectedClass}
           onSelectSubject={setSelectedSubject}
           onContinue={handleBegin}
+          onBack={() => setScreen('vision')}
           loading={checking}
           error={error}
         />

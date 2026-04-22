@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { connectWallet, getBalance, getContractAddress, mintTokens } from '../lib/web3';
-import FourMemeLaunchKit from './FourMemeLaunchKit';
+import CredentialPanel from './CredentialPanel';
 
 function shortAddress(address) {
   if (!address) return '';
@@ -101,7 +101,7 @@ export default function WalletMint({ onBack, aiProviderLabel }) {
         ) : null}
 
         <div className="mt-6">
-          <FourMemeLaunchKit projectName="EduOS" />
+          <CredentialPanel />
         </div>
 
         {error ? <p className="text-red-400 mt-4">{error}</p> : null}
